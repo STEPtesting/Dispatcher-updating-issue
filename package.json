@@ -2,7 +2,7 @@
   "name": "smart",
   "version": "1.0.0",
   "description": "smartbrain",
-  "main": "index.mjs",
+  "main": "server.mjs",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,7 +16,6 @@
     "cors": "^2.8.5",
     "esm": "^3.2.25",
     "express": "^4.17.1",
-    "knex": "^0.95.11",
     "objection": "^2.2.17",
     "pg": "^8.0.3"
   },

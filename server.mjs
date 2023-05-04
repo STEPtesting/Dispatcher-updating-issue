@@ -1,35 +1,29 @@
-import express from 'express';
-import bodyParser from'body-parser';
-import cors from 'cors';
-import fs from 'fs' 
+import express from 'express'; // import the Express.js library
+import bodyParser from 'body-parser'; // import the body-parser middleware
+import xmlparser from 'express-xml-bodyparser'; // import the express-xml-bodyparser middleware
+import cors from 'cors'; // import the cors middleware
 
+const app = express(); // create an instance of the Express.js application
 
-function IsJsonString(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
+app.use(bodyParser.json()); // set up the bodyParser middleware to parse JSON data
 
-const app = express();
+app.use(xmlparser({
+  limit: '5MB',
+})); // set up the express-xml-bodyparser middleware to parse XML data
 
-app.use(bodyParser.json());
-app.use(cors())
-let data = []
+app.use(cors()); // set up the CORS middleware to allow cross-origin requests
+let storage = [] // initialize an empty array to store the parsed data
 
-app.post('/v2x',(req,res)=>{
-	data.push(req.body)
-  res.send ('ok')
-  console.log (data)
+app.post('/v2x', (req, res) => { // handle POST requests to the '/v2x' endpoint
+  storage.push(req.body); // add the parsed data to the storage array
+  res.send('OK'); // send a response back to the client
 });
 
-app.get('/get',(req,res)=>{
-	res.send(data);
+app.get('/get',(req,res)=>{ // handle GET requests to the '/get' endpoint
+  res.send(storage); // send the storage array back to the client
 });
 
-
-
-app.listen(process.env.PORT || 3000);
-
+const port = process.env.PORT || 3000; // set the port for the server to listen on
+app.listen(port, () => { // start the server
+  console.log(`Server listening on port ${port}`); // log a message to the console when the server starts
+});
